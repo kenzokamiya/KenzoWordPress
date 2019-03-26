@@ -1,4 +1,4 @@
-/*! elementor - v2.5.8 - 15-03-2019 */
+/*! elementor - v2.5.10 - 26-03-2019 */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -6182,7 +6182,7 @@ var App = Marionette.Application.extend({
 	onPreviewLoadingError: function onPreviewLoadingError() {
 		this.showFatalErrorDialog({
 			headerMessage: this.translate('preview_not_loading_header'),
-			message: this.translate('preview_not_loading_message'),
+			message: this.translate('preview_not_loading_message') + '<br><a href="' + this.config.document.urls.preview + '" target="_blank">Preview Debug</a>',
 			onConfirm: function onConfirm() {
 				open(elementor.config.help_preview_error_url, '_blank');
 			}
@@ -14237,6 +14237,13 @@ ControlSliderItemView = ControlBaseUnitsItemView.extend({
 		});
 
 		sliderInstance.on('slide', this.onSlideChange.bind(this));
+	},
+
+	applySavedValue: function applySavedValue() {
+		ControlBaseUnitsItemView.prototype.applySavedValue.apply(this, arguments);
+		if (this.ui.slider[0].noUiSlider) {
+			this.ui.slider[0].noUiSlider.set(this.getSize());
+		}
 	},
 
 	getSize: function getSize() {
